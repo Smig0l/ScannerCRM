@@ -14,9 +14,14 @@ If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Lar
 `$ php -v`  -> PHP 8.1.2-1ubuntu2.10 (cli) (built: Jan 16 2023 15:19:49)   <br>
 `$ composer create-project laravel/laravel scanner-crm`  -> laravel/laravel (v10.2.6)  <br>
 
-## run with:
+## run with (dev):
 `cd scanner-crm` & `php artisan serve`
 
 ## history
 - configure your `.env`
-- `php artisan make:model -mrc Scansioni`
+- `npm install` & `npm run dev`
+- rimossi riferimenti a `User` starter template
+- creato `app.blade` per template 
+- `php artisan make:model -mrc Scansioni` 
+- aggiunto `index.scansioniblade`
+- `php artisan migrate` per tabella `scansionis`
