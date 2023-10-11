@@ -13,4 +13,6 @@ class Scansioni extends Model
         'codice_articolo',
         'quantita_rilevata',
     ];
+
+    protected $primaryKey = 'id';
 }

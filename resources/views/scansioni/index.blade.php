@@ -58,4 +58,6 @@
             @endforeach
         </tbody>
     </table>
+    <!-- Add pagination links -->
+    {{ $scansioni->links() }}
 @stop

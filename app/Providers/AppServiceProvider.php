@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Pagination\Paginator;
 \Laravel\Sanctum\Sanctum::ignoreMigrations();  //ignore create_personal_access_tokens_table during artisan migrate
 
 class AppServiceProvider extends ServiceProvider
@@ -20,6 +21,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Paginator::useBootstrap();
     }
 }
