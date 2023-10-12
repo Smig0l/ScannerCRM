@@ -92,7 +92,7 @@ class ScansioniController extends Controller
         $csvFileName = "scansioni_{$currentDateTime}.csv";
 
         // Create a temporary CSV file
-        $tempFilePath = public_path('tmp/' . $csvFileName);
+        $tempFilePath = public_path('/' . $csvFileName);
 
         $handle = fopen($tempFilePath, 'w');
 
