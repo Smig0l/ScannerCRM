@@ -38,7 +38,7 @@
 
 @section('headers')
     <div class="mb-5">
-        <h1 class="">Nuova Scansione</h1>
+        <h1 class="">Modifica Scansione</h1>
         <div title="torna indietro">
             <a href="{{ url()->previous() }}" class="btn btn-danger" role="button">
                 TORNA INDIETRO
@@ -52,21 +52,22 @@
     <div id="qr-reader" style="width:300px;"></div>
     <div id="alert-container"></div>
 
-    <form action="{{ route('scansioni.store') }}" method="POST">
+    <form action="{{ route('scansioni.update', $scansione->id) }}" method="POST">
         @csrf
+        @method('PATCH')
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="codice_articolo">Codice Articolo</label>
-                <input type="text" name="codice_articolo" class="form-control" id="codice_articolo" required>
+                <input type="text" name="codice_articolo" class="form-control" id="codice_articolo" value="{{ $scansione->codice_articolo }}" required>
             </div>
             <div class="form-group col-md-6">
                 <label for="quantita">Quantità</label>
-                <input type="number" name="quantita_rilevata" placeholder="immetti il numero di articoli (es. 1234,13)" step="0.01" min="0" class="form-control" id="quantita_rilevata" required>
+                <input type="number" name="quantita_rilevata" placeholder="immetti il numero di articoli (es. 1234,13)" step="0.01" min="0" class="form-control" id="quantita_rilevata" value="{{ $scansione->quantita_rilevata }}" required>
             </div>
         </div>
 
         <div class="form-group">
-            <button type="submit" class="btn btn-primary mt-2">FATTO</button>
+            <button type="submit" class="btn btn-primary mt-2">MODIFICA</button>
         </div>
     </form>    
 @stop

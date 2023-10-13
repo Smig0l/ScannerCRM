@@ -60,17 +60,25 @@ class ScansioniController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Scansioni $scansioni)
+    public function edit($id)
     {
-        //
+        $scansione = Scansioni::findOrFail($id);
+
+        return view('scansioni.edit', [
+            'scansione' => $scansione
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Scansioni $scansioni)
+    public function update(Request $request, $id): RedirectResponse
     {
-        //
+        $scansione = Scansioni::findOrFail($id);
+        
+        $scansione->update($request->all());
+        
+        return redirect(route('scansioni.index'));
     }
 
     /**

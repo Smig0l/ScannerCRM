@@ -16,9 +16,9 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', [ScansioniController::class, 'index'])->name('scansioni.index');
-Route::post('/scansioni', [ScansioniController::class, 'store'])->name('scansioni.store');
 Route::get('/scansioni/create', [ScansioniController::class, 'create'])->name('scansioni.create');
+Route::post('/scansioni', [ScansioniController::class, 'store'])->name('scansioni.store');
+Route::get('/scansioni/{id}/edit', [ScansioniController::class, 'edit'])->name('scansioni.edit');
+Route::patch('/scansioni/{id}', [ScansioniController::class, 'update'])->name('scansioni.update');
 Route::get('/scansioni/export', [ScansioniController::class, 'export'])->name('scansioni.export');
-/* Route::patch('/scansioni/{id}', [ScansioniController::class, 'update'])->name('scansioni.update'); */
-Route::get('/scansioni/{id}/edit', [ScansioniController::class, 'edit'])->name('scansioni.edit'); //TODO:
 Route::delete('/scansioni/{id}', [ScansioniController::class, 'destroy'])->name('scansioni.destroy');

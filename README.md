@@ -43,8 +43,7 @@ If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Lar
 - `mysql -u root -p` > `create database DB_NAME;` (scannercrm)
 - `php artisan migrate` (per creare automaticamente la tabella scansionis)
 - `mv ScannerCRM /usr/share/nginx/`
-- `chown -R nginx:nginx /usr/share/nginx/ScannerCRM/storage/framework/sessions` //FIXME: env?
-- `chown -R nginx:nginx /usr/share/nginx/ScannerCRM/storage/logs` //FIXME: env?
+- `chown -R nginx:nginx /usr/share/nginx/ScannerCRM/storage` //FIXME: env?
 - `chown -R nginx:nginx /usr/share/nginx/ScannerCRM/public`
 - `vim /etc/php-fpm.d/www.conf` > user / group = nginx
 - `systemctl restart php-fpm`
