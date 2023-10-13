@@ -3,23 +3,34 @@
 @section('scripts')
     <script src="https://unpkg.com/html5-qrcode"></script>
     <script>
-        //FIXME: html5qrcode scanner popup
+        //html5qrcode scanner popup https://scanapp.org/html5-qrcode-docs/docs/intro
         $( document ).ready(function() {
-            var lastResult, countResults = 0;
 
-            function onScanSuccess(decodedText, decodedResult) {
-                if (decodedText !== lastResult) {
-                    ++countResults;
-                    lastResult = decodedText;
-                    // Handle on success condition with the decoded message.
-                    console.log(`Scan result ${decodedText}`, decodedResult);
-                    $('#codice_articolo').val(decodedText);
-                }
-            }
-
-            var html5QrcodeScanner = new Html5QrcodeScanner(
-                "qr-reader", { fps: 10, qrbox: 250 });
-            html5QrcodeScanner.render(onScanSuccess);
+            const html5QrCode = new Html5Qrcode("qr-reader");
+            const qrCodeSuccessCallback = (decodedText, decodedResult) => {
+                // handle success 
+                $('#codice_articolo').val(decodedText);
+                $('#qr-reader').hide();
+                $('#quantita_rilevata').focus(); //FIXME: does not show keyboard automatically
+            };
+            const config = { fps: 10, qrbox: { width: 250, height: 100 } };
+            // Force select back camera or fail with `OverconstrainedError`
+            html5QrCode.start(
+                { facingMode: { exact: "environment"} }, 
+                config, 
+                qrCodeSuccessCallback
+            ).catch((err) => {
+                // Display a Bootstrap alert with the error message
+                const alertContainer = $('#alert-container');
+                const errorMessage = err.message || 'Errore! prova a ricaricare la pagina e consenti a questo sito di accedere alla fotocamera.';
+                const alertHtml = `
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        ${errorMessage}
+                    </div>
+                `;
+                alertContainer.html(alertHtml);
+             });
+                
         });
     </script>
 @stop
@@ -36,18 +47,9 @@
 @stop
 
 @section('content')
-    <!--parte di codice che mostra eventuali errori quando si compila il form di creazione-->
-    @if ($errors->any())
-        <div>
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
 
-    <div id="qr-reader" style="width:300px"></div>
+    <div id="qr-reader" style="width:300px;"></div>
+    <div id="alert-container"></div>
 
     <form action="{{ route('scansioni.store') }}" method="POST">
         @csrf
