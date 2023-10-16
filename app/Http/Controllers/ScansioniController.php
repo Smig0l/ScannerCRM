@@ -46,7 +46,7 @@ class ScansioniController extends Controller
 
         $scansione->save(); // Save the model to the database
  
-        return redirect(route('scansioni.index'));
+        return redirect(route('scansioni.create'));
     }
 
     /**

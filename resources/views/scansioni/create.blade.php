@@ -39,9 +39,9 @@
 @section('headers')
     <div class="mb-5">
         <h1 class="">Nuova Scansione</h1>
-        <div title="torna indietro">
-            <a href="{{ url()->previous() }}" class="btn btn-danger" role="button">
-                TORNA INDIETRO
+        <div title="home">
+            <a href="{{ route('scansioni.index') }}" class="btn btn-danger" role="button">
+                HOME / LISTA
             </a>
         </div>
     </div>
@@ -66,7 +66,7 @@
         </div>
 
         <div class="form-group">
-            <button type="submit" class="btn btn-primary mt-2">FATTO</button>
+            <button type="submit" class="btn btn-primary mt-2">INSERISCI</button>
         </div>
     </form>    
 @stop
