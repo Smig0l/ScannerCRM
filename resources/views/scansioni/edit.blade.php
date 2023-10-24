@@ -12,7 +12,14 @@
                 $('#codice_articolo').val("");
                 $('#codice_articolo').val(decodedText);
                 $('#qr-reader').hide();
-                $('#quantita_rilevata').focus(); //FIXME: does not show keyboard automatically
+                //focus on the quantita and show keyboard
+                $('#quantita_rilevata').click(function(e){
+                    $(this).focus();
+                });
+                $('#elementtofocusquantita').click(function(e) {
+                    $('#quantita_rilevata').trigger('click');
+                });
+                $('#quantita_rilevata').focus();
             };
             const config = { fps: 10, qrbox: { width: 250, height: 100 } };
             // Force select back camera or fail with `OverconstrainedError`
@@ -51,6 +58,7 @@
 
     <div id="qr-reader" style="width:300px;"></div>
     <div id="alert-container"></div>
+    <input type="hidden" id="elementtofocusquantita"></input>
 
     <form action="{{ route('scansioni.update', $scansione->id) }}" method="POST">
         @csrf
