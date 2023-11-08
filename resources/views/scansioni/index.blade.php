@@ -2,17 +2,13 @@
 @section('scripts')
     <script>
         function confirmDelete() {
-            const deleteBtn = document.getElementById("deleteBtn");
-
             let response = null;
-
             response = confirm("Vuoi proseguire con l'eliminazione?");
-
             if (!response) {
                 event.preventDefault();
             }
         }
-    </script>
+</script>
 @stop 
 
 @section('headers')
@@ -25,6 +21,9 @@
         Scarica CSV
     </a>
 
+    <a href="{{ route('scansioni.deleteAll') }}" onclick="confirmDelete()" role="button" class="btn btn-danger">  
+        CANCELLA STORICO SCANSIONI
+    </a>
 @stop
 
 @section('content')
@@ -49,7 +48,7 @@
                         <form method="POST" action="{{ route('scansioni.destroy', $scansione->id) }}">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" onclick="confirmDelete()" id="deleteBtn" class="btn btn-danger">
+                            <button type="submit" onclick="confirmDelete()" class="btn btn-danger">
                                 Elimina
                             </button>
                         </form>

@@ -12,14 +12,7 @@
                 $('#codice_articolo').val("");
                 $('#codice_articolo').val(decodedText);
                 $('#qr-reader').hide();
-                //focus on the quantita and show keyboard
-                $('#quantita_rilevata').click(function(e){
-                    $(this).focus();
-                });
-                $('#elementtofocusquantita').click(function(e) {
-                    $('#quantita_rilevata').trigger('click');
-                });
-                $('#quantita_rilevata').focus();
+                $('#quantita_rilevata').focus(); //FIXME: does not show keyboard automatically
             };
             const config = { fps: 10, qrbox: { width: 250, height: 100 } };
             // Force select back camera or fail with `OverconstrainedError`
@@ -69,7 +62,7 @@
                 <input type="text" name="codice_articolo" class="form-control" id="codice_articolo" value="{{ $scansione->codice_articolo }}" required>
             </div>
             <div class="form-group col-md-6">
-                <label for="quantita">Quantità</label>
+                <label for="quantita_rilevata">Quantità</label>
                 <input type="number" name="quantita_rilevata" placeholder="immetti il numero di articoli (es. 1234,13)" step="0.01" min="0" class="form-control" id="quantita_rilevata" value="{{ $scansione->quantita_rilevata }}" required>
             </div>
         </div>

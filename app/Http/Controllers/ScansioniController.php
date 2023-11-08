@@ -93,6 +93,9 @@ class ScansioniController extends Controller
         return redirect(route('scansioni.index'));
     }
 
+    /**
+     * Export the table of the specified resource from storage.
+     */
     public function export()
     {
         $scansioni = Scansioni::all();
@@ -127,5 +130,17 @@ class ScansioniController extends Controller
         );
 
         return Response::download($tempFilePath, $csvFileName, $headers)->deleteFileAfterSend(true);
+
+    }
+
+    /**
+     * Delete the table of the specified resource from storage.
+     */
+    public function deleteAll(): RedirectResponse
+    {
+        
+        Scansioni::truncate();
+
+        return redirect()->route('scansioni.index');
     }
 }

@@ -22,3 +22,4 @@ Route::get('/scansioni/{id}/edit', [ScansioniController::class, 'edit'])->name('
 Route::patch('/scansioni/{id}', [ScansioniController::class, 'update'])->name('scansioni.update');
 Route::get('/scansioni/export', [ScansioniController::class, 'export'])->name('scansioni.export');
 Route::delete('/scansioni/{id}', [ScansioniController::class, 'destroy'])->name('scansioni.destroy');
+Route::get('/scansioni/deleteAll', [ScansioniController::class, 'deleteAll'])->name('scansioni.deleteAll');
