@@ -9,9 +9,6 @@ You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you
 
 If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
 
-## run with (dev):
-`cd scanner-crm` & `php artisan serve`
-
 ## history
 - `composer create-project laravel/laravel scanner-crm`  -> laravel/laravel (v10.2.6)
 - configure your `.env`
@@ -21,51 +18,53 @@ If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Lar
 - `php artisan make:model -mrc Scansioni` 
 - `php artisan migrate` per tabella `scansionis`
 
-## Prod / first setup
-- `cat /etc/os-release` > NAME="Rocky Linux" VERSION="9.1"
-- `dnf -y install epel-release / htop / net-tools / vim / git / php / mysql / mysql-server / nginx / composer`
-- `systemctl start mysqld / nginx`
-- `mysql_secure_installation`:
-    DB_USER = root
-    DB_PASSWORD = root
+## start dev server:
+`cd ScannerCRM` & `php artisan serve --host=0.0.0.0`
+
+## messa in prod / first setup
+- `cat /etc/os-release` > NAME="Rocky Linux" VERSION="9.2"
+- `dnf -y install epel-release && dnf -y install htop net-tools vim git php mysql mysql-server nginx composer`
 - since it requires php >= 8.1: <br>
-    `dnf install https://rpms.remirepo.net/enterprise/remi-release-9.rpm` <br>
+    ~~`dnf install https://rpms.remirepo.net/enterprise/remi-release-9.rpm` <br>~~
     `dnf update` <br>
     `dnf module list php` <br>
-    `dnf module enable php:remi-8.1` <br>
+    `dnf module enable php:8.1` <br>
     `dnf update` <br>
     `php -v` (to check php version) <br>
-    `dnf install php-mysql` <br>
+    `dnf install php-mysqlnd` <br>
+- `systemctl start mysqld`
+- `mysql_secure_installation` (set here DB_USER and DB_PASSWORD)
+- `mysql -u root -p` > `create database DB_NAME;` (scansioniDB)
 - `git clone "https://github.com/Smig0l/ScannerCRM.git"`
 - `cd ScannerCRM`
 - `composer install` 
-- `vim .env` (copiare da env.sample e settare APP_ENV=production insieme ai parametri per il DB)
-- `mysql -u root -p` > `create database DB_NAME;` (scannercrm)
-- `php artisan migrate` (per creare automaticamente la tabella scansionis)
+- `vim .env` (copiare da .env.sample e settare APP_ENV=production insieme ai parametri per il DB)
+- `php artisan migrate` (per creare automaticamente la tabella `scansionis`)
+- `php artisan key:generate`
 - `mv ScannerCRM /usr/share/nginx/`
 - `chown -R nginx:nginx /usr/share/nginx/ScannerCRM/storage` //FIXME: env?
 - `chown -R nginx:nginx /usr/share/nginx/ScannerCRM/public`
 - `vim /etc/php-fpm.d/www.conf` > user / group = nginx
 - `systemctl restart php-fpm`
 - `mkdir /etc/nginx/ssl`
-- `sudo openssl req -x509 -nodes -newkey rsa:4096 -keyout /etc/nginx/ssl/nginx.key -out /etc/nginx/ssl/nginx.crt -days 365`
+- `sudo openssl req -x509 -nodes -newkey rsa:4096 -keyout /etc/nginx/ssl/scansionicrm.key -out /etc/nginx/ssl/scansionicrm.crt -days 365`
 - `vim /etc/nginx/conf.d/scansionicrm.conf` (for the virtualhost block):
     >   
         server {
         listen 80;
         listen [::]:80;
-        server_name example.com; 
+        server_name scansioni.crm.local; 
         return 301 https://$host$request_uri;
         }
 
         server {
             listen 443 ssl;
             listen [::]:443 ssl;
-            server_name example.com;
+            server_name scansioni.crm.local;
             root /usr/share/nginx/ScannerCRM/public;
 
-            ssl_certificate /etc/nginx/ssl/nginx.crt;
-            ssl_certificate_key /etc/nginx/ssl/nginx.key;
+            ssl_certificate /etc/nginx/ssl/scansionicrm.crt;
+            ssl_certificate_key /etc/nginx/ssl/scansionicrm.key;
 
             add_header X-Frame-Options "SAMEORIGIN";
             add_header X-Content-Type-Options "nosniff";
@@ -93,7 +92,9 @@ If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Lar
                 deny all;
             }
         }
-
+- `systemctl restart nginx`
+- `systemctl stop && disable firewalld`
+- `vim /etc/sysconfig/selinux` > disabled
 
 
 
