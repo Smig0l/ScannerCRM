@@ -10,15 +10,11 @@
     <title>Scanner CRM</title>
 
     <!-- Scripts -->
-    <script
-        src="https://code.jquery.com/jquery-3.6.0.js"
-        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
-        crossorigin="anonymous">
-    </script>
+    <script src="{{ asset('js/jquery-3.6.0.min.js') }}"></script>
     @yield('scripts')
 
     <!-- Styles -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
 
 
 </head>

@@ -1,11 +1,10 @@
 @extends('layouts.app')
 
 @section('scripts')
-    <script src="https://unpkg.com/html5-qrcode"></script>
+    <script src="{{ asset('js/html5-qrcode.min.js') }}"></script>
     <script>
-        //html5qrcode scanner popup https://scanapp.org/html5-qrcode-docs/docs/intro
         $( document ).ready(function() {
-
+            //html5qrcode scanner popup https://scanapp.org/html5-qrcode-docs/docs/intro
             const html5QrCode = new Html5Qrcode("qr-reader");
             const qrCodeSuccessCallback = (decodedText, decodedResult) => {
                 // handle success 
@@ -51,7 +50,6 @@
 
     <div id="qr-reader" style="width:300px;"></div>
     <div id="alert-container"></div>
-    <input type="hidden" id="elementtofocusquantita"></input>
 
     <form action="{{ route('scansioni.store') }}" method="POST">
         @csrf
