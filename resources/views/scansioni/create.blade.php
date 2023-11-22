@@ -1,36 +1,38 @@
 @extends('layouts.app')
 
 @section('scripts')
-    <script src="{{ asset('js/html5-qrcode.min.js') }}"></script>
-    <script>
-        $( document ).ready(function() {
-            //html5qrcode scanner popup https://scanapp.org/html5-qrcode-docs/docs/intro
-            const html5QrCode = new Html5Qrcode("qr-reader");
-            const qrCodeSuccessCallback = (decodedText, decodedResult) => {
-                // handle success 
-                $('#codice_articolo').val("");
-                $('#codice_articolo').val(decodedText);
-                $('#qr-reader').hide();
-                $('#quantita_rilevata').focus(); //FIXME: does not show keyboard automatically
+    <script src="{{ asset('js/zxing-library-0.20.0.min.js') }}"></script> 
+    <script type="text/javascript">
+       $(document).ready(function() {
+            //https://github.com/zxing-js/library srcjs: https://unpkg.com/@zxing/library@latest/umd/index.min.js
+            const constraints = {
+                audio: false,
+                video: {
+                    facingMode: { exact: "environment" },
+                    width: { ideal: 200 },
+                    height: { ideal: 300 }
+                }
             };
-            const config = { fps: 10, qrbox: { width: 250, height: 100 } };
-            // Force select back camera or fail with `OverconstrainedError`
-            html5QrCode.start(
-                { facingMode: { exact: "environment"} }, 
-                config, 
-                qrCodeSuccessCallback
-            ).catch((err) => {
+            const codeReader = new ZXing.BrowserMultiFormatReader();
+            codeReader.decodeOnceFromConstraints(constraints, 'video')
+            .then(result => {
+                $('#codice_articolo').val("");
+                $('#codice_articolo').val(result.text);
+                $('#video').hide();
+                $('#quantita_rilevata').focus();
+                codeReader.reset();
+            })
+            .catch(err => {
                 // Display a Bootstrap alert with the error message
                 const alertContainer = $('#alert-container');
-                const errorMessage = err.message || 'Errore! prova a ricaricare la pagina e consenti a questo sito di accedere alla fotocamera.';
+                const errorMessage = err.message && 'Errore! prova a ricaricare la pagina e consenti a questo sito di accedere alla fotocamera.';
                 const alertHtml = `
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
                         ${errorMessage}
                     </div>
                 `;
                 alertContainer.html(alertHtml);
-             });
-                
+            });
         });
     </script>
 @stop
@@ -48,7 +50,7 @@
 
 @section('content')
 
-    <div id="qr-reader" style="width:300px;"></div>
+    <video id="video" style="width:200;height:300;"></video>
     <div id="alert-container"></div>
 
     <form action="{{ route('scansioni.store') }}" method="POST">
