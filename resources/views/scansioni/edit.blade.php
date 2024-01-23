@@ -1,10 +1,11 @@
 @extends('layouts.app')
 
 @section('scripts')
-    <script src="{{ asset('js/zxing-library-0.20.0.min.js') }}"></script> 
-    <script type="text/javascript">
+    <!-- <script src="{{ asset('js/zxing-library-0.20.0.min.js') }}"></script> --> 
+    <!-- <script type="text/javascript">
        $(document).ready(function() {
-            //https://github.com/zxing-js/library srcjs: https://unpkg.com/@zxing/library@latest/umd/index.min.js
+            //DISABLED BECAUSE AS OF JAN24 THEY USE A LASER SCANNER INSTEAD OF THE CAM
+            //DOCS: https://github.com/zxing-js/library srcjs: https://unpkg.com/@zxing/library@latest/umd/index.min.js
             const constraints = {
                 audio: false,
                 video: {
@@ -34,7 +35,7 @@
                 alertContainer.html(alertHtml);
             });
         });
-    </script>
+    </script> -->
 @stop
 
 @section('headers')
@@ -50,7 +51,7 @@
 
 @section('content')
 
-    <video id="video" style="width:200;height:300;"></video>
+    <!-- <video id="video" style="width:200;height:300;"></video> -->
     <div id="alert-container"></div>
 
     <form action="{{ route('scansioni.update', $scansione->id) }}" method="POST">
@@ -59,7 +60,7 @@
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="codice_articolo">Codice Articolo</label>
-                <input type="text" name="codice_articolo" class="form-control" id="codice_articolo" value="{{ $scansione->codice_articolo }}" required>
+                <input type="text" name="codice_articolo" class="form-control" id="codice_articolo" placeholder="{{ $scansione->codice_articolo }}" value="" required autofocus>
             </div>
             <div class="form-group col-md-6">
                 <label for="quantita_rilevata">Quantità</label>
